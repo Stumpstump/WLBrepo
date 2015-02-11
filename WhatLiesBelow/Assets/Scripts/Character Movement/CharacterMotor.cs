@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+
 namespace WLB
 {
-
 	public class CharacterMotor : MonoBehaviour 
 	{
 		public float moveSpeed = 6f;
@@ -91,6 +91,7 @@ namespace WLB
 				isRaisingFatigue = true;
 			}
 		}
+
 
 		private void MovePlayer()
 		{
