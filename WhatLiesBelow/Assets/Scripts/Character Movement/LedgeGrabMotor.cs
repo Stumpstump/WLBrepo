@@ -22,7 +22,7 @@ namespace WLB
 
 		private void Update()
 		{
-			Debug.Log ("isLedge " + isLedge + " spaceEmpty " + spaceEmpty);
+			//Debug.Log ("isLedge " + isLedge + " spaceEmpty " + spaceEmpty);
 			if(isLedge && spaceEmpty && !isClimbing)
 			{
 				StartCoroutine(Climb());
