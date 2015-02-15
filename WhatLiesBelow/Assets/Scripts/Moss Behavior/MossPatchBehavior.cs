@@ -10,6 +10,7 @@ namespace WLB
 		public int maxMoss = 5;
 		public float refillDelay = 3f;
 		public float playerRefillDelay = 1f;
+		public Transform spawnPoint;
 
 		private bool isRefilling = false;
 		private bool canRefill = false;

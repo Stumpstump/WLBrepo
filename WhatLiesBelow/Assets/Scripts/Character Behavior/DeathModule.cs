@@ -10,14 +10,15 @@ namespace WLB
 		public SpriteRenderer fadeSprite;
 		public float fadeOutTime;
 		public float fadeInTime;
-		private Transform spawnPoint;
+		public Transform spawnPoint;
 
 
-		public Transform SpawnPoint
-		{
-			get{ return spawnPoint; }
-			set{ spawnPoint = value; }
-		}
+
+		//public Transform SpawnPoint
+		//{
+		//	get{ return spawnPoint; }
+		//	set{ spawnPoint = value; }
+		//}
 
 
 		public void KillPlayer()
@@ -45,6 +46,8 @@ namespace WLB
 			                             fadeSprite.color.b,
 			                             1f);
 
+			yield return new WaitForSeconds (fadeOutTime/2f);
+
 			StartCoroutine (Respawn ());
 		}
 
@@ -71,6 +74,15 @@ namespace WLB
 			                             fadeSprite.color.g,
 			                             fadeSprite.color.b,
 			                             0f);
+		}
+
+
+		private void Update()
+		{
+			if(Input.GetKey(KeyCode.L) && Input.GetKey(KeyCode.P))
+			{
+				KillPlayer();
+			}
 		}
 	}
 }
