@@ -25,10 +25,10 @@ namespace WLB
 		private bool isRaisingFatigue = false;
 
 		//variables for jump length
-		public float jumpSpeed = 200000f;
-		public float gravity = 20000f;
-		public float gravityForce = 30000f;
-		public float airTime = 20000f;
+		public float jumpSpeed = 20.0f;
+		public float gravity = 20.0f;
+		public float gravityForce = 3.0f;
+		public float airTime = 2f;
 		private float forceY = 0;
 		private float invertGrav;
 
@@ -42,6 +42,11 @@ namespace WLB
 	//			canDoubleJump = value;
 	//		}
 	//	}
+
+		private void Start()
+		{
+			invertGrav = gravity * airTime;
+		}
 
 		private IEnumerator drainFatigue()
 		{
@@ -63,16 +68,13 @@ namespace WLB
 		{
 			if (canJump) 
 			{
-				//Debug.Log ("canJump");
 				//when grounded set forceY to 0
 				forceY = 0;
 				//invertGrav also reset when grounded
 				invertGrav = gravity * airTime;
 				if(Input.GetKey(KeyCode.W)){
-					//Debug.Log ("Hit W");
-					//Debug.Log ("Update Can Jump Status= " + canJump);
+					//sets forceY to jumpSpeed to allow the jump
 					forceY = jumpSpeed;
-					//Debug.Log ("ForceY =" + forceY);
 					//canJump = false;
 				}
 			}
@@ -111,12 +113,12 @@ namespace WLB
 			}
 
 			if(Input.GetKeyDown(KeyCode.W) && canJump)
-			//if(Input.GetKeyDown(KeyCode.W))
 			{
-				Debug.Log ("Starting Jump");
-				Debug.Log ("Hit W Can Jump Status= " + canJump);
+				//sets momentum to 0 so it can't cancel the jump
 				rigidBody2D.velocity = new Vector2(0f,0f);
+				//run jump function
 				Jump();
+				//set canJump to false to disallow infinite jumping
 				canJump = false;
 			}
 
@@ -161,26 +163,17 @@ namespace WLB
 
 		private void Jump()
 		{
-			//canJump = false;
-			Debug.Log ("In the jump");
-			Debug.Log ("Jump function in the jump Can Jump Status= " + canJump);
 			if(Input.GetKeyDown(KeyCode.W) && forceY != 0 ){
-				Debug.Log ("invertGrav = "+invertGrav);
+				//allow a jump that will gradually increase over time
 				invertGrav -= Time.deltaTime;
-				Debug.Log ("forceY = "+forceY);
 				forceY += invertGrav*Time.deltaTime;
-				//Vector2 move = new Vector2 (0, forceY);
-				//rigidBody2D.AddForce (move);
 		}
 			forceY -= gravity * Time.deltaTime * gravityForce;
-			Debug.Log ("new " + forceY);
-			Debug.Log ("Jump function Can Jump Status= " + canJump);
-			//moveDirection.y = forceY;
-			//problem is here. no force being applied!
+			//set the move variable to the right speed
 			Vector2 move = new Vector2 (0, forceY);
-			//Vector2 move = new Vector2 (0, moveDirection * Time.deltaTime);
-			//rigidBody2D.AddForce (new Vector2(0,forceY));
+			//apply the jump force
 			rigidBody2D.AddForce (move);
+			//allow jumping again after you land
 			canJump = true;
 	}
 }
