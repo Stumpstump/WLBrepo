@@ -22,7 +22,7 @@ namespace WLB
 
 		private void Update()
 		{
-			Debug.Log ("isLedge " + isLedge + " spaceEmpty " + spaceEmpty);
+			//Debug.Log ("isLedge " + isLedge + " spaceEmpty " + spaceEmpty);
 			if(isLedge && spaceEmpty && !isClimbing)
 			{
 				StartCoroutine(Climb());
@@ -38,7 +38,7 @@ namespace WLB
 
 			Vector2 endPos = climbPos.position;
 			Vector2 currentPos = playerPos.position;
-			Debug.Log ("climbing");
+			//Debug.Log ("climbing");
 
 			float elapsedTime = 0f;
 
