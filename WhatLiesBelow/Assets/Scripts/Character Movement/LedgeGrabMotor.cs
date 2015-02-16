@@ -38,7 +38,7 @@ namespace WLB
 
 			Vector2 endPos = climbPos.position;
 			Vector2 currentPos = playerPos.position;
-			Debug.Log ("climbing");
+			//Debug.Log ("climbing");
 
 			float elapsedTime = 0f;
 
