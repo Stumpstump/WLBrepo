@@ -27,6 +27,7 @@ TextureImporter:
     21300044: character2_22
     21300046: character2_23
     21300048: character2_24
+    21300050: character2_25
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -202,7 +203,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 188
-        y: 266
+        y: 267
         width: 24
         height: 45
       alignment: 9
@@ -317,6 +318,16 @@ TextureImporter:
         height: 25
       alignment: 9
       pivot: {x: .136570096, y: .530726314}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: character2_25
+      rect:
+        serializedVersion: 2
+        x: 11
+        y: 138
+        width: 24
+        height: 45
+      alignment: 9
+      pivot: {x: .526131928, y: .887662113}
       border: {x: 0, y: 0, z: 0, w: 0}
   spritePackingTag: 
   userData: 
