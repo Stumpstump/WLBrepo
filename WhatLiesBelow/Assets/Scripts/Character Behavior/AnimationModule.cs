@@ -7,14 +7,13 @@ namespace WLB
 	{
 		public enum AnimationState : int
 		{
-			walking = 0,
-			running = 1,
-			idle1 = 2,
-			idle2 = 3,
-			jump0 = 4,
-			jump1 = 5,
-			ledgegrab = 6,
-			grabbingmoss = 7,
+			idle1 = 0,
+			walking = 1,
+			running = 2,
+			ledgegrab = 3,
+			grabbingmoss = 4,
+			wallclimb = 5,
+			jumpingBlendTree = 6,
 		}
 
 		public AnimationState animationState;
