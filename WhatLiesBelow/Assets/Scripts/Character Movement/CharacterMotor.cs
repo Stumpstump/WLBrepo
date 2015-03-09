@@ -112,12 +112,12 @@ namespace WLB
 				rigidBody2D.velocity = new Vector2(rigidBody2D.velocity.x, rigidBody2D.velocity.y);
 			}
 
-			if(Input.GetKeyDown(KeyCode.W) && canJump)
+			if(Input.GetKey(KeyCode.W) && canJump)
 			{
 				//sets momentum to 0 so it can't cancel the jump
 				rigidBody2D.velocity = new Vector2(0f,0f);
 				//run jump function
-				Jump();
+				StartCoroutine(Jump());
 				//set canJump to false to disallow infinite jumping
 				canJump = false;
 			}
@@ -150,24 +150,43 @@ namespace WLB
 			playerPos.position = new Vector3(move.x, playerPos.position.y, 0);
 		}
 
-	/*	original jump
-		private void Jump()
+		//original jump
+		private IEnumerator Jump()
 		{
 			canJump = false;
+
+			float currentTime = 0f;
+			float targetTime = 0.5f;
+			Vector2 addedForce = new Vector2 (0, jumpForce/2);
 			Vector2 move = new Vector2 (0 , jumpForce * 10);
-			Debug.Log (move.y);
 			rigidBody2D.AddForce (move);
+			yield return new WaitForEndOfFrame ();
+			while(currentTime < targetTime)
+			{
+				if(Input.GetKey(KeyCode.W))
+				{
+					Debug.Log ("happening");
+					currentTime += Time.deltaTime;
+					rigidBody2D.AddForce (addedForce);
+					yield return new WaitForEndOfFrame();
+				}
+				else
+				{
+					break;
+				}
+			}
 		}
 
-	*/
 
-		private void Jump()
+
+		/*private IEnumerator Jump()
 		{
-			if(Input.GetKeyDown(KeyCode.W) && forceY != 0 ){
+			if(Input.GetKeyDown(KeyCode.W) && forceY != 0 )
+			{
 				//allow a jump that will gradually increase over time
 				invertGrav -= Time.deltaTime;
 				forceY += invertGrav*Time.deltaTime;
-		}
+			}
 			forceY -= gravity * Time.deltaTime * gravityForce;
 			//set the move variable to the right speed
 			Vector2 move = new Vector2 (0, forceY);
@@ -175,6 +194,6 @@ namespace WLB
 			rigidBody2D.AddForce (move);
 			//allow jumping again after you land
 			canJump = true;
+		}*/
 	}
-}
 }
