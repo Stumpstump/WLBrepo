@@ -7,10 +7,10 @@ namespace WLB
 	public class SpaceCheck : MonoBehaviour 
 	{
 		public LedgeGrabMotor ledgeGrabMotor;
+		public WallRunMotor wallRunMotor;
 
 		private void OnTriggerEnter2D(Collider2D other)
 		{
-			Debug.Log ("wtf");
 			List<GameObject> gos = ledgeGrabMotor.gosInSpaceCheck;
 
 			if (gos.Count == 0)
@@ -35,7 +35,7 @@ namespace WLB
 			}
 
 			Debug.Log (gos.Count);
-			ledgeGrabMotor.spaceEmpty = gos.Count == 0;
+			ledgeGrabMotor.spaceEmpty = wallRunMotor.spaceEmpty = gos.Count == 0;
 		}
 
 
