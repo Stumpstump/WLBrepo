@@ -9,7 +9,7 @@ namespace WLB
 
 		private void OnTriggerEnter2D()
 		{
-			characterMotor.canJump = false;
+			characterMotor.canJump = true;
 		}
 	}
 }
