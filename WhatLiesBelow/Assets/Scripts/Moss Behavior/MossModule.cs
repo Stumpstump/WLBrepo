@@ -11,6 +11,8 @@ namespace WLB
 		public Transform lightPosition;
 		public GameObject mossLightPrefab;
 
+		public int startMossCount = 3;
+
 		private GameObject heldLight;
 		private bool holdingLight = false;
 

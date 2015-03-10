@@ -6,10 +6,18 @@ namespace WLB
 	public class GroundCheck : MonoBehaviour 
 	{
 		public CharacterMotor characterMotor;
+		public bool isGrounded;
 
 		private void OnTriggerEnter2D()
 		{
-			characterMotor.canJump = true;
+			isGrounded = true;
+			characterMotor.canJump = isGrounded;
+		}
+
+		private void OnTriggerExit2D()
+		{
+			isGrounded = false;
+			characterMotor.canJump = isGrounded;
 		}
 	}
 }
