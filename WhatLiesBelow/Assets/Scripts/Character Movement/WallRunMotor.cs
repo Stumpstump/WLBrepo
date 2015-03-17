@@ -39,17 +39,34 @@ namespace WLB
 
 		private IEnumerator WallRun()
 		{
+			bool doneRunning = false;
+
+
+
 			float elapsedTime = 0f;
 			Vector2 endPos = wallRunPos.position;
 			Vector2 currentPos = playerPos.position;
 			Debug.Log ("wall  running");
 			while (elapsedTime < climbTime)
 			{
+				characterMotor.canJump = true;
+				doneRunning = Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S);
+				if(doneRunning) break;
+
 				elapsedTime += Time.deltaTime;
 				playerPos.position = Vector2.Lerp(currentPos, endPos, (elapsedTime / climbTime));
 				yield return null;
 			}
 
+			while(!doneRunning)
+			{
+				characterMotor.canJump = true;
+				doneRunning = Input.GetKeyDown(KeyCode.W) ||Input.GetKeyDown(KeyCode.S);
+				if(doneRunning) break;
+
+				playerPos.position = endPos;
+				yield return null;
+			}
 		}
 	}
 }
