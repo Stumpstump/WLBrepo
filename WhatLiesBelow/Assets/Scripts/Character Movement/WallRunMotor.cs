@@ -18,6 +18,7 @@ namespace WLB
 		public bool spaceEmpty;
 
 		public GroundCheck groundCheck;
+		public LedgeGrabMotor ledgeGrabMotor;
 
 		private bool canWallRun = true;
 
@@ -41,7 +42,7 @@ namespace WLB
 		{
 			bool doneRunning = false;
 
-
+			if (ledgeGrabMotor.isClimbing) doneRunning = true;
 
 			float elapsedTime = 0f;
 			Vector2 endPos = wallRunPos.position;
@@ -50,7 +51,7 @@ namespace WLB
 			while (elapsedTime < climbTime)
 			{
 				characterMotor.canJump = true;
-				doneRunning = Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S);
+				doneRunning = Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S) || ledgeGrabMotor.isClimbing;
 				if(doneRunning) break;
 
 				elapsedTime += Time.deltaTime;
@@ -61,7 +62,7 @@ namespace WLB
 			while(!doneRunning)
 			{
 				characterMotor.canJump = true;
-				doneRunning = Input.GetKeyDown(KeyCode.W) ||Input.GetKeyDown(KeyCode.S);
+				doneRunning = Input.GetKeyDown(KeyCode.W) ||Input.GetKeyDown(KeyCode.S) || ledgeGrabMotor.isClimbing;
 				if(doneRunning) break;
 
 				playerPos.position = endPos;

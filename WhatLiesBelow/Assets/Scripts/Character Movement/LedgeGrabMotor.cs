@@ -19,11 +19,10 @@ namespace WLB
 		public bool isLedge = false;
 		public bool spaceEmpty = false;
 
-		private bool isClimbing;
+		public bool isClimbing;
 
 		private void Update()
 		{
-			//Debug.Log ("isLedge " + isLedge + " spaceEmpty " + spaceEmpty);
 			if(isLedge && spaceEmpty && !isClimbing)
 			{
 				StartCoroutine(Climb());

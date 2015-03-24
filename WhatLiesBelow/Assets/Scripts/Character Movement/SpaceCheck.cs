@@ -18,7 +18,7 @@ namespace WLB
 				gos.Add(other.gameObject);
 				ledgeGrabMotor.gosInSpaceCheck = gos;
 			} 
-			else 
+			else
 			{
 				foreach(GameObject go in gos)
 				{
