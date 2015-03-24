@@ -13,6 +13,7 @@ namespace WLB
 
 		public Collider2D spaceCheck;
 		public Collider2D ledgeCheck;
+		public Collider2D groundCheck;
 
 		public List<GameObject> gosInSpaceCheck = new List<GameObject>();
 		public bool isLedge = false;
