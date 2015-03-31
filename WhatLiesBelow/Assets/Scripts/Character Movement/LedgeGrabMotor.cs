@@ -13,16 +13,16 @@ namespace WLB
 
 		public Collider2D spaceCheck;
 		public Collider2D ledgeCheck;
+		public Collider2D groundCheck;
 
 		public List<GameObject> gosInSpaceCheck = new List<GameObject>();
 		public bool isLedge = false;
 		public bool spaceEmpty = false;
 
-		private bool isClimbing;
+		public bool isClimbing;
 
 		private void Update()
 		{
-			//Debug.Log ("isLedge " + isLedge + " spaceEmpty " + spaceEmpty);
 			if(isLedge && spaceEmpty && !isClimbing)
 			{
 				StartCoroutine(Climb());

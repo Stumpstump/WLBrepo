@@ -8,7 +8,6 @@ namespace WLB
 
 		public void OnTriggerEnter2D(Collider2D other)
 		{
-			Debug.Log (other.gameObject.name);
 			if(other.tag == "Player")
 			{
 				DeathWatch._deathModule.KillPlayer();
