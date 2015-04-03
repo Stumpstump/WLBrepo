@@ -11,9 +11,9 @@ namespace WLB
 			walking = 1,
 			running = 3,
 			ledgegrab = 2,
-			grabbingmoss = 5,
+			grabbingmoss = 6,
 			wallclimb = 4,
-			jumpingBlendTree = 6,
+			jumpingBlendTree = 5,
 		}
 
 		public AnimationState currentState;
@@ -23,13 +23,13 @@ namespace WLB
 
 		public void SetState(AnimationState state)
 		{
-			if(state != currentState)
-			{
+			//if(state != currentState)
+			//{
 				currentState = state;
 				int i = (int)state;
 				playerAnimator.SetInteger ("state", i);
 				Debug.Log (i);
-			}
+			//}
 		}
 
 		private void Update()

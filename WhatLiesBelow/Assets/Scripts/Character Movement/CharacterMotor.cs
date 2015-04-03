@@ -80,11 +80,11 @@ namespace WLB
 				theScale.x *= -1;
 				playerPos.localScale = theScale;
 				MovePlayer ();
-				if(!isSprinting && wallRunMotor.canWallRun && !ledgeGrabMotor.isClimbing) 
+				if(!isSprinting && wallRunMotor.canWallRun && !ledgeGrabMotor.isClimbing && canJump) 
 				{
 					animationModule.SetState(AnimationModule.AnimationState.walking);
 				}
-				else
+				else if (wallRunMotor.canWallRun && !ledgeGrabMotor.isClimbing && canJump)
 				{
 					animationModule.SetState(AnimationModule.AnimationState.running);
 				}
@@ -97,11 +97,11 @@ namespace WLB
 				theScale.x *= 1;
 				playerPos.localScale = theScale;
 				MovePlayer ();
-				if(!isSprinting && wallRunMotor.canWallRun && !ledgeGrabMotor.isClimbing) 
+				if(!isSprinting && wallRunMotor.canWallRun && !ledgeGrabMotor.isClimbing && canJump) 
 				{
 					animationModule.SetState(AnimationModule.AnimationState.walking);
 				}
-				else
+				else if (wallRunMotor.canWallRun && !ledgeGrabMotor.isClimbing && canJump)
 				{
 					animationModule.SetState(AnimationModule.AnimationState.running);
 				}
@@ -117,9 +117,15 @@ namespace WLB
 				//sets momentum to 0 so it can't cancel the jump
 				rigidBody2D.velocity = new Vector2(0f,0f);
 				//run jump function
+				animationModule.SetState(AnimationModule.AnimationState.jumpingBlendTree);
 				StartCoroutine(Jump());
 				//set canJump to false to disallow infinite jumping
 				canJump = false;
+			}
+
+			if(Input.GetKey(KeyCode.W))
+			{
+				animationModule.SetState(AnimationModule.AnimationState.jumpingBlendTree);
 			}
 
 			if(!isSprinting && fatigue < 100f)
@@ -160,9 +166,11 @@ namespace WLB
 			Vector2 addedForceVector = new Vector2 (0, addedForce);
 			Vector2 move = new Vector2 (0 , jumpForce * 10);
 			rigidBody2D.AddForce (move);
+			animationModule.SetState(AnimationModule.AnimationState.jumpingBlendTree);
 			yield return new WaitForEndOfFrame ();
 			while(currentTime < targetTime)
 			{
+				animationModule.SetState(AnimationModule.AnimationState.jumpingBlendTree);
 				if(Input.GetKey(KeyCode.W))
 				{
 					currentTime += Time.deltaTime;
