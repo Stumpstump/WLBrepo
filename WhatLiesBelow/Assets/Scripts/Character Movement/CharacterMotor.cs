@@ -14,6 +14,11 @@ namespace WLB
 		public float fatigue = 100f;
 		public bool fatigueEnabled;
 
+		public AnimationModule animationModule;
+		public LedgeGrabMotor ledgeGrabMotor;
+		public WallRunMotor wallRunMotor;
+
+
 		public Rigidbody2D rigidBody2D;
 		public Transform playerPos;
 
@@ -75,6 +80,14 @@ namespace WLB
 				theScale.x *= -1;
 				playerPos.localScale = theScale;
 				MovePlayer ();
+				if(!isSprinting && wallRunMotor.canWallRun && !ledgeGrabMotor.isClimbing) 
+				{
+					animationModule.SetState(AnimationModule.AnimationState.walking);
+				}
+				else
+				{
+					animationModule.SetState(AnimationModule.AnimationState.running);
+				}
 			}
 
 			if(Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A))
@@ -84,6 +97,14 @@ namespace WLB
 				theScale.x *= 1;
 				playerPos.localScale = theScale;
 				MovePlayer ();
+				if(!isSprinting && wallRunMotor.canWallRun && !ledgeGrabMotor.isClimbing) 
+				{
+					animationModule.SetState(AnimationModule.AnimationState.walking);
+				}
+				else
+				{
+					animationModule.SetState(AnimationModule.AnimationState.running);
+				}
 			}
 
 			if(!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
