@@ -110,6 +110,7 @@ namespace WLB
 			if(!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
 			{
 				rigidBody2D.velocity = new Vector2(rigidBody2D.velocity.x, rigidBody2D.velocity.y);
+				animationModule.SetState(AnimationModule.AnimationState.idle1);
 			}
 
 			if(Input.GetKey(KeyCode.W) && canJump)
