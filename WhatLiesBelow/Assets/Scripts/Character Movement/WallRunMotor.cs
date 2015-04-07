@@ -7,6 +7,7 @@ namespace WLB
 
 		public float climbTime;
 		public CharacterMotor characterMotor;
+		public AnimationModule animationModule;
 
 		public Transform playerPos;
 		public Transform wallRunPos;
@@ -18,8 +19,9 @@ namespace WLB
 		public bool spaceEmpty;
 
 		public GroundCheck groundCheck;
+		public LedgeGrabMotor ledgeGrabMotor;
 
-		private bool canWallRun = true;
+		public bool canWallRun = true;
 
 		private void Update()
 		{
@@ -27,6 +29,7 @@ namespace WLB
 			{
 				Debug.Log ("launching wall run");
 				canWallRun = false;
+				animationModule.SetState(AnimationModule.AnimationState.wallclimb);
 				StartCoroutine(WallRun());
 			}
 
@@ -41,17 +44,23 @@ namespace WLB
 		{
 			bool doneRunning = false;
 
-
+			if (ledgeGrabMotor.isClimbing) doneRunning = true;
 
 			float elapsedTime = 0f;
 			Vector2 endPos = wallRunPos.position;
 			Vector2 currentPos = playerPos.position;
 			Debug.Log ("wall  running");
+
 			while (elapsedTime < climbTime)
 			{
+				animationModule.SetState(AnimationModule.AnimationState.wallclimb);
 				characterMotor.canJump = true;
-				doneRunning = Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S);
-				if(doneRunning) break;
+				doneRunning = Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S) || ledgeGrabMotor.isClimbing;
+				if(doneRunning) 
+				{
+					//animationModule.SetState(AnimationModule.AnimationState.idle1);
+					break;
+				}
 
 				elapsedTime += Time.deltaTime;
 				playerPos.position = Vector2.Lerp(currentPos, endPos, (elapsedTime / climbTime));
@@ -60,9 +69,14 @@ namespace WLB
 
 			while(!doneRunning)
 			{
+				animationModule.SetState(AnimationModule.AnimationState.wallclimb);
 				characterMotor.canJump = true;
-				doneRunning = Input.GetKeyDown(KeyCode.W) ||Input.GetKeyDown(KeyCode.S);
-				if(doneRunning) break;
+				doneRunning = Input.GetKeyDown(KeyCode.W) ||Input.GetKeyDown(KeyCode.S) || ledgeGrabMotor.isClimbing;
+				if(doneRunning) 
+				{
+					//animationModule.SetState(AnimationModule.AnimationState.idle1);
+					break;
+				};
 
 				playerPos.position = endPos;
 				yield return null;

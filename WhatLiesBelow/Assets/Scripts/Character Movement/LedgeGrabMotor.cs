@@ -11,6 +11,8 @@ namespace WLB
 		public Transform playerPos;
 		public Transform climbPos;
 
+		public AnimationModule animationModule;
+
 		public Collider2D spaceCheck;
 		public Collider2D ledgeCheck;
 		public Collider2D groundCheck;
@@ -19,13 +21,13 @@ namespace WLB
 		public bool isLedge = false;
 		public bool spaceEmpty = false;
 
-		private bool isClimbing;
+		public bool isClimbing;
 
 		private void Update()
 		{
-			//Debug.Log ("isLedge " + isLedge + " spaceEmpty " + spaceEmpty);
 			if(isLedge && spaceEmpty && !isClimbing)
 			{
+				animationModule.SetState(AnimationModule.AnimationState.ledgegrab);
 				StartCoroutine(Climb());
 			}
 		}
@@ -43,11 +45,13 @@ namespace WLB
 
 			float elapsedTime = 0f;
 
+
+
 			while(elapsedTime < climbTime)
 			{
+				animationModule.SetState(AnimationModule.AnimationState.ledgegrab);
 				playerPos.position = Vector2.Lerp(currentPos, endPos, (elapsedTime / climbTime));
 				elapsedTime += Time.deltaTime;
-				Debug.Log(playerPos.position);
 				yield return null;
 			}
 			playerPos.position = endPos;
