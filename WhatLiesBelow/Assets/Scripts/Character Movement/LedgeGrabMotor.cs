@@ -52,7 +52,6 @@ namespace WLB
 				animationModule.SetState(AnimationModule.AnimationState.ledgegrab);
 				playerPos.position = Vector2.Lerp(currentPos, endPos, (elapsedTime / climbTime));
 				elapsedTime += Time.deltaTime;
-				Debug.Log(playerPos.position);
 				yield return null;
 			}
 			playerPos.position = endPos;

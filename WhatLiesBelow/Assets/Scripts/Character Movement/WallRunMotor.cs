@@ -58,7 +58,7 @@ namespace WLB
 				doneRunning = Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S) || ledgeGrabMotor.isClimbing;
 				if(doneRunning) 
 				{
-					animationModule.SetState(AnimationModule.AnimationState.idle1);
+					//animationModule.SetState(AnimationModule.AnimationState.idle1);
 					break;
 				}
 
@@ -74,7 +74,7 @@ namespace WLB
 				doneRunning = Input.GetKeyDown(KeyCode.W) ||Input.GetKeyDown(KeyCode.S) || ledgeGrabMotor.isClimbing;
 				if(doneRunning) 
 				{
-					animationModule.SetState(AnimationModule.AnimationState.idle1);
+					//animationModule.SetState(AnimationModule.AnimationState.idle1);
 					break;
 				};
 
