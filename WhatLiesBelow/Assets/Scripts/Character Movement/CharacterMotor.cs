@@ -9,6 +9,8 @@ namespace WLB
 		public float moveSpeed = 6f;
 		public float sprintSpeed = 6f;
 		public float jumpForce = 240f;
+		public float jumpForceAdditive = 7f;
+		public float jumpForceAdditiveDuration = 0.5f;
 		public float fatigueLossRate = 1f;
 		public float fatigueGainRate = 5f;
 		public float fatigue = 100f;
@@ -30,9 +32,8 @@ namespace WLB
 		private bool isRaisingFatigue = false;
 
 		//for the jump code
-		public float currentTime = 0f;
-		public float targetTime = 0.5f;
-		public float addedForce = 120f;
+		private float currentTime = 0f;
+
 
 	//	private bool canDoubleJump = false;
 
@@ -113,7 +114,7 @@ namespace WLB
 				animationModule.SetState(AnimationModule.AnimationState.idle1);
 			}
 
-			if(Input.GetKey(KeyCode.W) && canJump)
+			if(Input.GetKeyDown(KeyCode.W) && canJump)
 			{
 				//sets momentum to 0 so it can't cancel the jump
 				rigidBody2D.velocity = new Vector2(0f,0f);
@@ -124,7 +125,7 @@ namespace WLB
 				canJump = false;
 			}
 
-			if(Input.GetKey(KeyCode.W))
+			if(Input.GetKey(KeyCode.W) && !canJump)
 			{
 				animationModule.SetState(AnimationModule.AnimationState.jumpingBlendTree);
 			}
@@ -163,13 +164,12 @@ namespace WLB
 			canJump = false;
 
 			float currentTime = 0f;
-			float targetTime = 0.5f;
-			Vector2 addedForceVector = new Vector2 (0, addedForce);
+			Vector2 addedForceVector = new Vector2 (0, jumpForceAdditive);
 			Vector2 move = new Vector2 (0 , jumpForce * 10);
 			rigidBody2D.AddForce (move);
 			animationModule.SetState(AnimationModule.AnimationState.jumpingBlendTree);
 			yield return new WaitForEndOfFrame ();
-			while(currentTime < targetTime)
+			while(currentTime < jumpForceAdditiveDuration)
 			{
 				animationModule.SetState(AnimationModule.AnimationState.jumpingBlendTree);
 				if(Input.GetKey(KeyCode.W))
