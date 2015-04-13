@@ -29,8 +29,6 @@ namespace WLB
 		public float targetTime = 0.5f;
 		public float addedForce = 120f;
 
-		public AudioClip jump;
-
 	//	private bool canDoubleJump = false;
 
 	//	public bool CanDoubleJump
@@ -98,7 +96,7 @@ namespace WLB
 				//sets momentum to 0 so it can't cancel the jump
 				rigidBody2D.velocity = new Vector2(0f,0f);
 				//run jump function
-				AudioHelper.CreatePlayAudioObject(jump);
+				AudioHelper.CreatePlayAudioObject(SoundLibrary.water2);
 				StartCoroutine(Jump());
 				//set canJump to false to disallow infinite jumping
 				canJump = false;
