@@ -7,6 +7,9 @@ TextureImporter:
     21300004: extralimbs_2
     21300006: extralimbs_3
     21300008: extralimbs_4
+    21300010: extralimbs_5
+    21300012: extralimbs_6
+    21300014: extralimbs_7
   serializedVersion: 2
   mipmaps:
     mipMapMode: 0
@@ -95,6 +98,36 @@ TextureImporter:
         y: 969
         width: 37
         height: 44
+      alignment: 0
+      pivot: {x: .5, y: .5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: extralimbs_5
+      rect:
+        serializedVersion: 2
+        x: 233
+        y: 978
+        width: 28
+        height: 27
+      alignment: 9
+      pivot: {x: .443612248, y: .815759718}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: extralimbs_6
+      rect:
+        serializedVersion: 2
+        x: 277
+        y: 975
+        width: 28
+        height: 31
+      alignment: 9
+      pivot: {x: .398502886, y: .856508315}
+      border: {x: 0, y: 0, z: 0, w: 0}
+    - name: extralimbs_7
+      rect:
+        serializedVersion: 2
+        x: 319
+        y: 971
+        width: 26
+        height: 41
       alignment: 0
       pivot: {x: .5, y: .5}
       border: {x: 0, y: 0, z: 0, w: 0}
