@@ -147,6 +147,8 @@ namespace WLB
 					isJumping = false;
 				}
 			}
+			//animationModule.SetFloat ("vspeed", rigidBody2D.velocity.y);
+			//I need this for my blendtree to work. Refference unity video at 58:20
 		}
 
 
