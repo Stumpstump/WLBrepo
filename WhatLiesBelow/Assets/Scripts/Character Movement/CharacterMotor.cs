@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 
@@ -25,6 +25,7 @@ namespace WLB
 		public Transform playerPos;
 
 		public bool canJump = true;
+		public bool isJumping = false;
 		public int moveDirection = 0;
 
 		private bool isLoweringFatigue = false;
@@ -33,18 +34,9 @@ namespace WLB
 
 		//for the jump code
 		private float currentTime = 0f;
+		private Vector2 move;
+		private Vector2 addedForceVector;
 
-
-	//	private bool canDoubleJump = false;
-
-	//	public bool CanDoubleJump
-	//	{
-	//		get { return canDoubleJump; }
-	//		set
-	//		{
-	//			canDoubleJump = value;
-	//		}
-	//	}
 
 		private IEnumerator drainFatigue()
 		{
@@ -118,9 +110,11 @@ namespace WLB
 			{
 				//sets momentum to 0 so it can't cancel the jump
 				rigidBody2D.velocity = new Vector2(0f,0f);
+				rigidBody2D.AddForce (move);
 				//run jump function
 				animationModule.SetState(AnimationModule.AnimationState.jumpingBlendTree);
-				StartCoroutine(Jump());
+				currentTime = 0;
+				isJumping = true;
 				//set canJump to false to disallow infinite jumping
 				canJump = false;
 			}
@@ -134,6 +128,24 @@ namespace WLB
 			{
 				StartCoroutine(raiseFatigue());
 				isRaisingFatigue = true;
+			}
+		}
+
+
+		private void FixedUpdate()
+		{
+			if(isJumping)
+			{
+				if(currentTime < jumpForceAdditiveDuration && Input.GetKey(KeyCode.W))
+				{
+					//animationModule.SetState(AnimationModule.AnimationState.jumpingBlendTree);
+					rigidBody2D.AddForce (addedForceVector);
+					currentTime += Time.deltaTime;
+				}
+				else
+				{
+					isJumping = false;
+				}
 			}
 		}
 
@@ -158,31 +170,11 @@ namespace WLB
 			playerPos.position = new Vector3(move.x, playerPos.position.y, 0);
 		}
 
-		//original jump
-		private IEnumerator Jump()
-		{
-			canJump = false;
 
-			float currentTime = 0f;
-			Vector2 addedForceVector = new Vector2 (0, jumpForceAdditive);
-			Vector2 move = new Vector2 (0 , jumpForce * 10);
-			rigidBody2D.AddForce (move);
-			animationModule.SetState(AnimationModule.AnimationState.jumpingBlendTree);
-			yield return new WaitForEndOfFrame ();
-			while(currentTime < jumpForceAdditiveDuration)
-			{
-				animationModule.SetState(AnimationModule.AnimationState.jumpingBlendTree);
-				if(Input.GetKey(KeyCode.W))
-				{
-					currentTime += Time.deltaTime;
-					rigidBody2D.AddForce (addedForceVector);
-					yield return new WaitForEndOfFrame();
-				}
-				else
-				{
-					break;
-				}
-			}
+		private void Start()
+		{
+			move = new Vector2 (0 , jumpForce * 10);
+			addedForceVector = new Vector2 (0, jumpForceAdditive);
 		}
 	}
 }
