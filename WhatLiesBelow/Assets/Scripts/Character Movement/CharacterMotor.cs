@@ -66,45 +66,31 @@ namespace WLB
 			{
 				isSprinting = false;
 			}
-
-			if(Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
-			{
+			if ((!Input.GetKey (KeyCode.A) && !Input.GetKey (KeyCode.D)) || (Input.GetKey (KeyCode.A) && Input.GetKey (KeyCode.D))) {
+				rigidBody2D.velocity = new Vector2 (rigidBody2D.velocity.x, rigidBody2D.velocity.y);
+				animationModule.SetState (AnimationModule.AnimationState.idle1);
+			} else if (Input.GetKey (KeyCode.A) && !Input.GetKey (KeyCode.D)) {
 				moveDirection = -1;
 				Vector3 theScale = transform.localScale;
 				theScale.x *= -1;
 				playerPos.localScale = theScale;
 				MovePlayer ();
-				if(!isSprinting && wallRunMotor.canWallRun && !ledgeGrabMotor.isClimbing && canJump) 
-				{
-					animationModule.SetState(AnimationModule.AnimationState.walking);
+				if (!isSprinting && wallRunMotor.canWallRun && !ledgeGrabMotor.isClimbing && canJump) {
+					animationModule.SetState (AnimationModule.AnimationState.walking);
+				} else if (wallRunMotor.canWallRun && !ledgeGrabMotor.isClimbing && canJump) {
+					animationModule.SetState (AnimationModule.AnimationState.running);
 				}
-				else if (wallRunMotor.canWallRun && !ledgeGrabMotor.isClimbing && canJump)
-				{
-					animationModule.SetState(AnimationModule.AnimationState.running);
-				}
-			}
-
-			if(Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A))
-			{
+			} else if (Input.GetKey (KeyCode.D) && !Input.GetKey (KeyCode.A)) {
 				moveDirection = 1;
 				Vector3 theScale = transform.localScale;
 				theScale.x *= 1;
 				playerPos.localScale = theScale;
 				MovePlayer ();
-				if(!isSprinting && wallRunMotor.canWallRun && !ledgeGrabMotor.isClimbing && canJump) 
-				{
-					animationModule.SetState(AnimationModule.AnimationState.walking);
+				if (!isSprinting && wallRunMotor.canWallRun && !ledgeGrabMotor.isClimbing && canJump) {
+					animationModule.SetState (AnimationModule.AnimationState.walking);
+				} else if (wallRunMotor.canWallRun && !ledgeGrabMotor.isClimbing && canJump) {
+					animationModule.SetState (AnimationModule.AnimationState.running);
 				}
-				else if (wallRunMotor.canWallRun && !ledgeGrabMotor.isClimbing && canJump)
-				{
-					animationModule.SetState(AnimationModule.AnimationState.running);
-				}
-			}
-
-			if(!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
-			{
-				rigidBody2D.velocity = new Vector2(rigidBody2D.velocity.x, rigidBody2D.velocity.y);
-				animationModule.SetState(AnimationModule.AnimationState.idle1);
 			}
 
 			if(Input.GetKeyDown(KeyCode.W) && canJump)
