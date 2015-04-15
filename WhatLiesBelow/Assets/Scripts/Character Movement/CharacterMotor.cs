@@ -6,6 +6,7 @@ namespace WLB
 {
 	public class CharacterMotor : MonoBehaviour 
 	{
+		public float vspeed;
 		public float moveSpeed = 6f;
 		public float sprintSpeed = 6f;
 		public float jumpForce = 240f;
@@ -147,7 +148,8 @@ namespace WLB
 					isJumping = false;
 				}
 			}
-			//animationModule.SetFloat ("vspeed", rigidBody2D.velocity.y);
+			vspeed = rigidBody2D.velocity.y;
+			Debug.Log("vspeed is " + vspeed);
 			//I need this for my blendtree to work. Refference unity video at 58:20
 		}
 
