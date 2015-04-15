@@ -44,10 +44,6 @@ namespace WLB
 		{
 			bool doneRunning = false;
 			KeyCode breakCode = DetectBreakInput();
-			while(breakCode == KeyCode.Ampersand)
-			{
-				breakCode = DetectBreakInput();
-			}
 
 			if (ledgeGrabMotor.isClimbing || Input.GetKey(breakCode)) doneRunning = true;
 
