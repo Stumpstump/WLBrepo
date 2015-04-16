@@ -6,7 +6,7 @@ namespace WLB
 {
 	public class CharacterMotor : MonoBehaviour 
 	{
-		public float vspeed;
+		public float vSpeed;
 		public float moveSpeed = 6f;
 		public float sprintSpeed = 6f;
 		public float jumpForce = 240f;
@@ -38,7 +38,24 @@ namespace WLB
 		private Vector2 move;
 		private Vector2 addedForceVector;
 
+<<<<<<< HEAD
+=======
 
+<<<<<<< HEAD
+>>>>>>> 6bf4137615947a9810a70055485dfea1b95148d2
+	//	private bool canDoubleJump = false;
+
+	//	public bool CanDoubleJump
+	//	{
+	//		get { return canDoubleJump; }
+	//		set
+	//		{
+	//			canDoubleJump = value;
+	//		}
+	//	}
+
+=======
+>>>>>>> master
 		private IEnumerator drainFatigue()
 		{
 			yield return new WaitForSeconds (0.1f);
@@ -99,9 +116,17 @@ namespace WLB
 				rigidBody2D.velocity = new Vector2(0f,0f);
 				rigidBody2D.AddForce (move);
 				//run jump function
+<<<<<<< HEAD
+				AudioHelper.CreatePlayAudioObject(SoundLibrary.water2);
+=======
 				animationModule.SetState(AnimationModule.AnimationState.jumpingBlendTree);
+<<<<<<< HEAD
+>>>>>>> 6bf4137615947a9810a70055485dfea1b95148d2
+				StartCoroutine(Jump());
+=======
 				currentTime = 0;
 				isJumping = true;
+>>>>>>> master
 				//set canJump to false to disallow infinite jumping
 				canJump = false;
 			}
@@ -134,8 +159,8 @@ namespace WLB
 					isJumping = false;
 				}
 			}
-			vspeed = rigidBody2D.velocity.y;
-			Debug.Log("vspeed is " + vspeed);
+			vSpeed = rigidBody2D.velocity.y;
+			Debug.Log("vspeed is " + vSpeed);
 			//I need this for my blendtree to work. Refference unity video at 58:20
 		}
 
