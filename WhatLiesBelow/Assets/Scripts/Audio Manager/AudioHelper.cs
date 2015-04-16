@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/* To use AudioHelper, just use CreatePlayAudioObject and then one of
+ * the variables from SoundLibrary to play your sound.
+ */
+
 public class AudioHelper : MonoBehaviour {
 	// over loads
 	public static void CreatePlayAudioObject(AudioClip aClip) {
