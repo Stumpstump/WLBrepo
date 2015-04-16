@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 
@@ -6,6 +6,7 @@ namespace WLB
 {
 	public class CharacterMotor : MonoBehaviour 
 	{
+		public float vspeed;
 		public float moveSpeed = 6f;
 		public float sprintSpeed = 6f;
 		public float jumpForce = 240f;
@@ -25,6 +26,7 @@ namespace WLB
 		public Transform playerPos;
 
 		public bool canJump = true;
+		public bool isJumping = false;
 		public int moveDirection = 0;
 
 		private bool isLoweringFatigue = false;
@@ -33,10 +35,13 @@ namespace WLB
 
 		//for the jump code
 		private float currentTime = 0f;
+		private Vector2 move;
+		private Vector2 addedForceVector;
 
 <<<<<<< HEAD
 =======
 
+<<<<<<< HEAD
 >>>>>>> 6bf4137615947a9810a70055485dfea1b95148d2
 	//	private bool canDoubleJump = false;
 
@@ -49,6 +54,8 @@ namespace WLB
 	//		}
 	//	}
 
+=======
+>>>>>>> master
 		private IEnumerator drainFatigue()
 		{
 			yield return new WaitForSeconds (0.1f);
@@ -76,58 +83,50 @@ namespace WLB
 			{
 				isSprinting = false;
 			}
-
-			if(Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
-			{
+			if ((!Input.GetKey (KeyCode.A) && !Input.GetKey (KeyCode.D)) || (Input.GetKey (KeyCode.A) && Input.GetKey (KeyCode.D))) {
+				rigidBody2D.velocity = new Vector2 (rigidBody2D.velocity.x, rigidBody2D.velocity.y);
+				animationModule.SetState (AnimationModule.AnimationState.idle1);
+			} else if (Input.GetKey (KeyCode.A) && !Input.GetKey (KeyCode.D)) {
 				moveDirection = -1;
 				Vector3 theScale = transform.localScale;
 				theScale.x *= -1;
 				playerPos.localScale = theScale;
 				MovePlayer ();
-				if(!isSprinting && wallRunMotor.canWallRun && !ledgeGrabMotor.isClimbing && canJump) 
-				{
-					animationModule.SetState(AnimationModule.AnimationState.walking);
+				if (!isSprinting && wallRunMotor.canWallRun && !ledgeGrabMotor.isClimbing && canJump) {
+					animationModule.SetState (AnimationModule.AnimationState.walking);
+				} else if (wallRunMotor.canWallRun && !ledgeGrabMotor.isClimbing && canJump) {
+					animationModule.SetState (AnimationModule.AnimationState.running);
 				}
-				else if (wallRunMotor.canWallRun && !ledgeGrabMotor.isClimbing && canJump)
-				{
-					animationModule.SetState(AnimationModule.AnimationState.running);
-				}
-			}
-
-			if(Input.GetKey(KeyCode.D) && !Input.GetKey(KeyCode.A))
-			{
+			} else if (Input.GetKey (KeyCode.D) && !Input.GetKey (KeyCode.A)) {
 				moveDirection = 1;
 				Vector3 theScale = transform.localScale;
 				theScale.x *= 1;
 				playerPos.localScale = theScale;
 				MovePlayer ();
-				if(!isSprinting && wallRunMotor.canWallRun && !ledgeGrabMotor.isClimbing && canJump) 
-				{
-					animationModule.SetState(AnimationModule.AnimationState.walking);
+				if (!isSprinting && wallRunMotor.canWallRun && !ledgeGrabMotor.isClimbing && canJump) {
+					animationModule.SetState (AnimationModule.AnimationState.walking);
+				} else if (wallRunMotor.canWallRun && !ledgeGrabMotor.isClimbing && canJump) {
+					animationModule.SetState (AnimationModule.AnimationState.running);
 				}
-				else if (wallRunMotor.canWallRun && !ledgeGrabMotor.isClimbing && canJump)
-				{
-					animationModule.SetState(AnimationModule.AnimationState.running);
-				}
-			}
-
-			if(!Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
-			{
-				rigidBody2D.velocity = new Vector2(rigidBody2D.velocity.x, rigidBody2D.velocity.y);
-				animationModule.SetState(AnimationModule.AnimationState.idle1);
 			}
 
 			if(Input.GetKeyDown(KeyCode.W) && canJump)
 			{
 				//sets momentum to 0 so it can't cancel the jump
 				rigidBody2D.velocity = new Vector2(0f,0f);
+				rigidBody2D.AddForce (move);
 				//run jump function
 <<<<<<< HEAD
 				AudioHelper.CreatePlayAudioObject(SoundLibrary.water2);
 =======
 				animationModule.SetState(AnimationModule.AnimationState.jumpingBlendTree);
+<<<<<<< HEAD
 >>>>>>> 6bf4137615947a9810a70055485dfea1b95148d2
 				StartCoroutine(Jump());
+=======
+				currentTime = 0;
+				isJumping = true;
+>>>>>>> master
 				//set canJump to false to disallow infinite jumping
 				canJump = false;
 			}
@@ -142,6 +141,27 @@ namespace WLB
 				StartCoroutine(raiseFatigue());
 				isRaisingFatigue = true;
 			}
+		}
+
+
+		private void FixedUpdate()
+		{
+			if(isJumping)
+			{
+				if(currentTime < jumpForceAdditiveDuration && Input.GetKey(KeyCode.W))
+				{
+					//animationModule.SetState(AnimationModule.AnimationState.jumpingBlendTree);
+					rigidBody2D.AddForce (addedForceVector);
+					currentTime += Time.deltaTime;
+				}
+				else
+				{
+					isJumping = false;
+				}
+			}
+			vspeed = rigidBody2D.velocity.y;
+			Debug.Log("vspeed is " + vspeed);
+			//I need this for my blendtree to work. Refference unity video at 58:20
 		}
 
 
@@ -165,31 +185,11 @@ namespace WLB
 			playerPos.position = new Vector3(move.x, playerPos.position.y, 0);
 		}
 
-		//original jump
-		private IEnumerator Jump()
-		{
-			canJump = false;
 
-			float currentTime = 0f;
-			Vector2 addedForceVector = new Vector2 (0, jumpForceAdditive);
-			Vector2 move = new Vector2 (0 , jumpForce * 10);
-			rigidBody2D.AddForce (move);
-			animationModule.SetState(AnimationModule.AnimationState.jumpingBlendTree);
-			yield return new WaitForEndOfFrame ();
-			while(currentTime < jumpForceAdditiveDuration)
-			{
-				animationModule.SetState(AnimationModule.AnimationState.jumpingBlendTree);
-				if(Input.GetKey(KeyCode.W))
-				{
-					currentTime += Time.deltaTime;
-					rigidBody2D.AddForce (addedForceVector);
-					yield return new WaitForEndOfFrame();
-				}
-				else
-				{
-					break;
-				}
-			}
+		private void Start()
+		{
+			move = new Vector2 (0 , jumpForce * 10);
+			addedForceVector = new Vector2 (0, jumpForceAdditive);
 		}
 	}
 }

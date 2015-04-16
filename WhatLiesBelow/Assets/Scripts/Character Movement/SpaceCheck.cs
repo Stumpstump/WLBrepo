@@ -34,7 +34,7 @@ namespace WLB
 				}
 			}
 
-			Debug.Log (gos.Count);
+			//Debug.Log (gos.Count);
 			ledgeGrabMotor.spaceEmpty = wallRunMotor.spaceEmpty = gos.Count == 0;
 		}
 

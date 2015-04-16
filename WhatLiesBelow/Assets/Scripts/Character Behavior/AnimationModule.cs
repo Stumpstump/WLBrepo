@@ -25,11 +25,9 @@ namespace WLB
 		{
 			//if(state != currentState)
 			//{
-			Debug.Log ("Setting state : " + (int)state);
 			currentState = state;
 			int i = (int)state;
 			playerAnimator.SetInteger ("state", i);
-			Debug.Log (i);
 			//}
 		}
 

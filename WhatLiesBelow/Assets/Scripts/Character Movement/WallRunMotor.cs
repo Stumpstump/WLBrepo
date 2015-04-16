@@ -43,8 +43,13 @@ namespace WLB
 		private IEnumerator WallRun()
 		{
 			bool doneRunning = false;
+			KeyCode breakCode = DetectBreakInput();
+			while(breakCode == KeyCode.Ampersand)
+			{
+				breakCode = DetectBreakInput();
+			}
 
-			if (ledgeGrabMotor.isClimbing) doneRunning = true;
+			if (ledgeGrabMotor.isClimbing || Input.GetKey(breakCode)) doneRunning = true;
 
 			float elapsedTime = 0f;
 			Vector2 endPos = wallRunPos.position;
@@ -55,7 +60,7 @@ namespace WLB
 			{
 				animationModule.SetState(AnimationModule.AnimationState.wallclimb);
 				characterMotor.canJump = true;
-				doneRunning = Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S) || ledgeGrabMotor.isClimbing;
+				doneRunning = Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S) || ledgeGrabMotor.isClimbing || Input.GetKey(breakCode);
 				if(doneRunning) 
 				{
 					//animationModule.SetState(AnimationModule.AnimationState.idle1);
@@ -71,7 +76,7 @@ namespace WLB
 			{
 				animationModule.SetState(AnimationModule.AnimationState.wallclimb);
 				characterMotor.canJump = true;
-				doneRunning = Input.GetKeyDown(KeyCode.W) ||Input.GetKeyDown(KeyCode.S) || ledgeGrabMotor.isClimbing;
+				doneRunning = Input.GetKeyDown(KeyCode.W) ||Input.GetKeyDown(KeyCode.S) || ledgeGrabMotor.isClimbing || Input.GetKey(breakCode);
 				if(doneRunning) 
 				{
 					//animationModule.SetState(AnimationModule.AnimationState.idle1);
@@ -81,6 +86,20 @@ namespace WLB
 				playerPos.position = endPos;
 				yield return null;
 			}
+
+			characterMotor.rigidBody2D.velocity = Vector2.zero;
+			animationModule.SetState (AnimationModule.AnimationState.jumpingBlendTree); 
+		}
+
+		public KeyCode DetectBreakInput()
+		{
+			if (Input.GetKey (KeyCode.A))
+				return KeyCode.D;
+
+			if (Input.GetKey (KeyCode.D))
+				return KeyCode.A;
+
+			return KeyCode.Ampersand;
 		}
 	}
 }
