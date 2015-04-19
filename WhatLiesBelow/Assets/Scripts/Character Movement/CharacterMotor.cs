@@ -75,7 +75,7 @@ namespace WLB
 
 		private void Update()
 		{
-			if(Input.GetKeyDown(KeyCode.LeftShift) && fatigue > 0)
+			if(Input.GetKeyDown(KeyCode.LeftShift) && fatigue > 0 && canJump)
 			{
 				isSprinting = true;
 			}
