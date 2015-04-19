@@ -11,6 +11,7 @@ namespace WLB
 
 		public Transform playerPos;
 		public Transform wallRunPos;
+		public float climbHeight = 2f;
 		
 		public Collider2D spaceCheck;
 		public Collider2D ledgeCheck;
@@ -22,6 +23,7 @@ namespace WLB
 		public LedgeGrabMotor ledgeGrabMotor;
 
 		public bool canWallRun = true;
+		public bool canWallReset = true;
 
 		private void Update()
 		{
@@ -30,10 +32,11 @@ namespace WLB
 				Debug.Log ("launching wall run");
 				canWallRun = false;
 				animationModule.SetState(AnimationModule.AnimationState.wallclimb);
+				canWallReset = false;
 				StartCoroutine(WallRun());
 			}
 
-			if(!canWallRun && groundCheck.isGrounded)
+			if(!canWallRun && groundCheck.isGrounded && canWallReset)
 			{
 				canWallRun = true;
 			}
@@ -48,9 +51,11 @@ namespace WLB
 			if (ledgeGrabMotor.isClimbing || Input.GetKey(breakCode)) doneRunning = true;
 
 			float elapsedTime = 0f;
-			Vector2 endPos = wallRunPos.position;
+			//Vector2 endPos = wallRunPos.position;
+			Vector2 endPos = new Vector2(playerPos.position.x, (playerPos.position.y + climbHeight));
 			Vector2 currentPos = playerPos.position;
-			Debug.Log ("wall  running");
+			Debug.Log (currentPos + " : " + endPos);
+			Debug.Log (climbHeight);
 
 			while (elapsedTime < climbTime)
 			{
@@ -65,9 +70,12 @@ namespace WLB
 
 				elapsedTime += Time.deltaTime;
 				playerPos.position = Vector2.Lerp(currentPos, endPos, (elapsedTime / climbTime));
+				Debug.Log (playerPos.position);
+				Debug.Log (Vector2.Lerp(currentPos, endPos, (elapsedTime / climbTime)));
+				Debug.Log (endPos);
 				yield return null;
 			}
-
+			Debug.Log ("made it here");
 			while(!doneRunning)
 			{
 				animationModule.SetState(AnimationModule.AnimationState.wallclimb);
@@ -85,6 +93,7 @@ namespace WLB
 
 			characterMotor.rigidBody2D.velocity = Vector2.zero;
 			animationModule.SetState (AnimationModule.AnimationState.jumpingBlendTree); 
+			canWallReset = true;
 		}
 
 		public KeyCode DetectBreakInput()

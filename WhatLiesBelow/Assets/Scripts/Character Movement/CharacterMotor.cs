@@ -141,6 +141,11 @@ namespace WLB
 				StartCoroutine(raiseFatigue());
 				isRaisingFatigue = true;
 			}
+
+			if(!wallRunMotor.canWallReset)
+			{
+				rigidBody2D.velocity = new Vector2(0f,0f);
+			}
 		}
 
 
