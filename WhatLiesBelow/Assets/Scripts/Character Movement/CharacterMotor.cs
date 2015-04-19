@@ -32,6 +32,7 @@ namespace WLB
 		private bool isLoweringFatigue = false;
 		private bool isSprinting = false;
 		private bool isRaisingFatigue = false;
+		private float axisNumber;
 
 		//for the jump code
 		private float currentTime = 0f;
@@ -83,10 +84,29 @@ namespace WLB
 			{
 				isSprinting = false;
 			}
-			if ((!Input.GetKey (KeyCode.A) && !Input.GetKey (KeyCode.D)) || (Input.GetKey (KeyCode.A) && Input.GetKey (KeyCode.D))) {
+			if(!Input.GetKey(KeyCode.A) &&
+			   !Input.GetKey (KeyCode.D) &&
+			   !Input.GetKey(KeyCode.LeftArrow) &&
+			   !Input.GetKey(KeyCode.RightArrow))
+			{
+				axisNumber = 0;
+			}
+			else if((Input.GetKey(KeyCode.A) && Input.GetKey(KeyCode.D)) || 
+			        (Input.GetKey(KeyCode.LeftArrow) && Input.GetKey(KeyCode.RightArrow)))
+			{
+				axisNumber = 0;
+			}
+			else
+			{
+				axisNumber = Input.GetAxis("Horizontal");
+			}
+
+			if (axisNumber == 0) 
+			{
 				rigidBody2D.velocity = new Vector2 (rigidBody2D.velocity.x, rigidBody2D.velocity.y);
 				animationModule.SetState (AnimationModule.AnimationState.idle1);
-			} else if (Input.GetKey (KeyCode.A) && !Input.GetKey (KeyCode.D)) {
+				Debug.Log("this shit is happening");
+			} else if (axisNumber < 0) {
 				moveDirection = -1;
 				Vector3 theScale = transform.localScale;
 				theScale.x *= -1;
@@ -97,7 +117,7 @@ namespace WLB
 				} else if (wallRunMotor.canWallRun && !ledgeGrabMotor.isClimbing && canJump) {
 					animationModule.SetState (AnimationModule.AnimationState.running);
 				}
-			} else if (Input.GetKey (KeyCode.D) && !Input.GetKey (KeyCode.A)) {
+			} else if (axisNumber > 0) {
 				moveDirection = 1;
 				Vector3 theScale = transform.localScale;
 				theScale.x *= 1;
@@ -110,7 +130,7 @@ namespace WLB
 				}
 			}
 
-			if(Input.GetKeyDown(KeyCode.W) && canJump)
+			if((Input.GetKeyDown(KeyCode.W)|| Input.GetKeyDown(KeyCode.UpArrow)) && canJump)
 			{
 				//sets momentum to 0 so it can't cancel the jump
 				rigidBody2D.velocity = new Vector2(0f,0f);
@@ -131,7 +151,7 @@ namespace WLB
 				canJump = false;
 			}
 
-			if(Input.GetKey(KeyCode.W) && !canJump)
+			if((Input.GetKeyDown(KeyCode.W)|| Input.GetKeyDown(KeyCode.UpArrow)) && !canJump)
 			{
 				animationModule.SetState(AnimationModule.AnimationState.jumpingBlendTree);
 			}
