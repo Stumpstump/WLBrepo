@@ -5,6 +5,7 @@ namespace WLB
 {
 	public class WallRunMotor : MonoBehaviour {
 
+		public float elapsedTime;
 		public float climbTime;
 		public CharacterMotor characterMotor;
 		public AnimationModule animationModule;
