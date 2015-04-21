@@ -23,7 +23,6 @@ public class BlinkMotor : MonoBehaviour {
 			yield return new WaitForEndOfFrame();
 		}
 
-		Debug.Log ("blink : " + blinkTime);
 		StartCoroutine (Blink ());
 	}
 }

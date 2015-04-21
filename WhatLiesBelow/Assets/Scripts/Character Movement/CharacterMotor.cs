@@ -105,7 +105,6 @@ namespace WLB
 			{
 				rigidBody2D.velocity = new Vector2 (rigidBody2D.velocity.x, rigidBody2D.velocity.y);
 				animationModule.SetState (AnimationModule.AnimationState.idle1);
-				Debug.Log("this shit is happening");
 			} else if (axisNumber < 0) {
 				moveDirection = -1;
 				Vector3 theScale = transform.localScale;
