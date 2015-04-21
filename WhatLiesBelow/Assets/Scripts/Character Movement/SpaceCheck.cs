@@ -20,22 +20,30 @@ namespace WLB
 			} 
 			else
 			{
-				foreach(GameObject go in gos)
+				for(int i = gos.Count - 1; i >= 0; i--)
 				{
-					if(go == other.gameObject)
+					if(gos[i] == other.gameObject)
 					{
 						break;
 					}
 					else
 					{
-						gos.Add(go);
+						gos.Add(gos[i]);
 						ledgeGrabMotor.gosInSpaceCheck = gos;
 					}
 				}
 			}
 
-			Debug.Log (gos.Count);
-			ledgeGrabMotor.spaceEmpty = wallRunMotor.spaceEmpty = gos.Count == 0;
+			if(gos.Count == 0)
+			{
+				ledgeGrabMotor.spaceEmpty = true;
+				wallRunMotor.spaceEmpty = true;
+			}
+			else
+			{
+				ledgeGrabMotor.spaceEmpty = false;
+				wallRunMotor.spaceEmpty = false;
+			}
 		}
 
 
@@ -43,16 +51,25 @@ namespace WLB
 		{
 			List<GameObject> gos = ledgeGrabMotor.gosInSpaceCheck;
 
-			foreach(GameObject go in gos)
+			for(int i = gos.Count - 1; i >= 0; i--)
 			{
-				if(go == other.gameObject)
+				if(gos[i] == other.gameObject)
 				{
-					gos.Remove(go);
+					gos.Remove(gos[i]);
 					break;
 				}
 			}
 
-			ledgeGrabMotor.spaceEmpty = gos.Count == 0;
+			if(gos.Count == 0)
+			{
+				ledgeGrabMotor.spaceEmpty = true;
+				wallRunMotor.spaceEmpty = true;
+			}
+			else
+			{
+				ledgeGrabMotor.spaceEmpty = false;
+				wallRunMotor.spaceEmpty = false;
+			}
 		}
 	}
 }

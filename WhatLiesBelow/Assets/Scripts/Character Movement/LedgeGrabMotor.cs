@@ -11,13 +11,15 @@ namespace WLB
 		public Transform playerPos;
 		public Transform climbPos;
 
+		public AnimationModule animationModule;
+
 		public Collider2D spaceCheck;
 		public Collider2D ledgeCheck;
 		public Collider2D groundCheck;
 
 		public List<GameObject> gosInSpaceCheck = new List<GameObject>();
 		public bool isLedge = false;
-		public bool spaceEmpty = false;
+		public bool spaceEmpty = true;
 
 		public bool isClimbing;
 
@@ -25,6 +27,9 @@ namespace WLB
 		{
 			if(isLedge && spaceEmpty && !isClimbing)
 			{
+				Debug.Log ("climbing");
+				isClimbing = true;
+				animationModule.SetState(AnimationModule.AnimationState.ledgegrab);
 				StartCoroutine(Climb());
 			}
 		}
@@ -34,7 +39,7 @@ namespace WLB
 		{
 			isClimbing = true;
 			Rigidbody2D rb2d = playerPos.gameObject.GetComponent<Rigidbody2D> ();
-			//rb2d.isKinematic = false;
+			Debug.Log ("climbing");
 
 			Vector2 endPos = climbPos.position;
 			Vector2 currentPos = playerPos.position;
@@ -42,11 +47,13 @@ namespace WLB
 
 			float elapsedTime = 0f;
 
+
+
 			while(elapsedTime < climbTime)
 			{
+				animationModule.SetState(AnimationModule.AnimationState.ledgegrab);
 				playerPos.position = Vector2.Lerp(currentPos, endPos, (elapsedTime / climbTime));
 				elapsedTime += Time.deltaTime;
-				Debug.Log(playerPos.position);
 				yield return null;
 			}
 			playerPos.position = endPos;
