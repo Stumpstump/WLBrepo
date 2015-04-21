@@ -54,8 +54,6 @@ namespace WLB
 			//Vector2 endPos = wallRunPos.position;
 			Vector2 endPos = new Vector2(playerPos.position.x, (playerPos.position.y + climbHeight));
 			Vector2 currentPos = playerPos.position;
-			Debug.Log (currentPos + " : " + endPos);
-			Debug.Log (climbHeight);
 
 			while (elapsedTime < climbTime)
 			{
@@ -70,12 +68,8 @@ namespace WLB
 
 				elapsedTime += Time.deltaTime;
 				playerPos.position = Vector2.Lerp(currentPos, endPos, (elapsedTime / climbTime));
-				Debug.Log (playerPos.position);
-				Debug.Log (Vector2.Lerp(currentPos, endPos, (elapsedTime / climbTime)));
-				Debug.Log (endPos);
 				yield return null;
 			}
-			Debug.Log ("made it here");
 			while(!doneRunning)
 			{
 				animationModule.SetState(AnimationModule.AnimationState.wallclimb);

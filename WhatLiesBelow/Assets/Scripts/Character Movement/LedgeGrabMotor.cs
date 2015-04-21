@@ -19,7 +19,7 @@ namespace WLB
 
 		public List<GameObject> gosInSpaceCheck = new List<GameObject>();
 		public bool isLedge = false;
-		public bool spaceEmpty = false;
+		public bool spaceEmpty = true;
 
 		public bool isClimbing;
 
@@ -27,6 +27,8 @@ namespace WLB
 		{
 			if(isLedge && spaceEmpty && !isClimbing)
 			{
+				Debug.Log ("climbing");
+				isClimbing = true;
 				animationModule.SetState(AnimationModule.AnimationState.ledgegrab);
 				StartCoroutine(Climb());
 			}
@@ -37,7 +39,7 @@ namespace WLB
 		{
 			isClimbing = true;
 			Rigidbody2D rb2d = playerPos.gameObject.GetComponent<Rigidbody2D> ();
-			//rb2d.isKinematic = false;
+			Debug.Log ("climbing");
 
 			Vector2 endPos = climbPos.position;
 			Vector2 currentPos = playerPos.position;
