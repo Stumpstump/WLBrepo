@@ -13,19 +13,15 @@ namespace WLB
 
 		public AnimationModule animationModule;
 
-		public Collider2D spaceCheck;
-		public Collider2D ledgeCheck;
-		public Collider2D groundCheck;
-
-		public List<GameObject> gosInSpaceCheck = new List<GameObject>();
-		public bool isLedge = false;
-		public bool spaceEmpty = true;
-
+		public SpaceCheck spaceCheck;
+		public LedgeCheck ledgeCheck;
+		public GroundCheck groundCheck;
+	
 		public bool isClimbing;
 
 		private void Update()
 		{
-			if(isLedge && spaceEmpty && !isClimbing)
+			if(ledgeCheck.IsLedge && spaceCheck.IsEmpty && !isClimbing)
 			{
 				Debug.Log ("climbing");
 				isClimbing = true;

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 
@@ -6,6 +7,8 @@ namespace WLB
 {
 	public class CharacterMotor : MonoBehaviour 
 	{
+		public Text debugText;
+
 		public float vSpeed;
 		public float moveSpeed = 6f;
 		public float sprintSpeed = 6f;
@@ -20,7 +23,6 @@ namespace WLB
 		public AnimationModule animationModule;
 		public LedgeGrabMotor ledgeGrabMotor;
 		public WallRunMotor wallRunMotor;
-
 
 		public Rigidbody2D rigidBody2D;
 		public Transform playerPos;
@@ -184,6 +186,8 @@ namespace WLB
 				}
 			}
 			vSpeed = rigidBody2D.velocity.y;
+			animationModule.playerAnimator.SetFloat ("vSpeed", vSpeed);
+			if(debugText) debugText.text = "vSpeed : " + vSpeed;
 			//I need this for my blendtree to work. Refference unity video at 58:20
 		}
 
