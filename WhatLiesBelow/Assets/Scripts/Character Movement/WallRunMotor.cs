@@ -13,13 +13,10 @@ namespace WLB
 		public Transform wallRunPos;
 		public float climbHeight = 2f;
 		
-		public Collider2D spaceCheck;
-		public Collider2D ledgeCheck;
-
-		public bool isLedge;
-		public bool spaceEmpty;
-
+		public SpaceCheck spaceCheck;
+		public LedgeCheck ledgeCheck;
 		public GroundCheck groundCheck;
+
 		public LedgeGrabMotor ledgeGrabMotor;
 
 		public bool canWallRun = true;
@@ -27,7 +24,7 @@ namespace WLB
 
 		private void Update()
 		{
-			if(isLedge && !spaceEmpty && canWallRun && !groundCheck.isGrounded)
+			if(ledgeCheck.IsLedge && !spaceCheck.IsEmpty && canWallRun && !groundCheck.isGrounded)
 			{
 				Debug.Log ("launching wall run");
 				canWallRun = false;

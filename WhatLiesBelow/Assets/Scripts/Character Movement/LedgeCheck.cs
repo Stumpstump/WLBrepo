@@ -7,27 +7,45 @@ namespace WLB
 {
 	public class LedgeCheck : MonoBehaviour 
 	{
-		public LedgeGrabMotor ledgeGrabMotor;
-		public WallRunMotor wallRunMotor;
+		public List<GameObject> ledgeCheckObjects = new List<GameObject>(0);
 
-		private List<GameObject> ledgeCheckObjects = new List<GameObject>(0);
-		/*private void OnTriggerEnter2D()
+		private bool isLedge;
+		
+		public bool IsLedge
 		{
-			ledgeGrabMotor.isLedge = true;
-			wallRunMotor.isLedge = true;
+			get
+			{
+				if(ledgeCheckObjects.Count == 0)
+				{
+					return false;
+				}
+				else
+				{
+					return true;
+				}
+			}
 		}
-		
-		
-		private void OnTriggerExit2D()
-		{
-			ledgeGrabMotor.isLedge = false;
-			wallRunMotor.isLedge = false;
-		}*/
 
 		private void OnTriggerEnter2D(Collider2D other)
 		{
-			ledgeGrabMotor.isLedge = true;
-			wallRunMotor.isLedge = true;
+			if (ledgeCheckObjects.Count == 0)
+			{
+				ledgeCheckObjects.Add(other.gameObject);
+			} 
+			else
+			{
+				for(int i = ledgeCheckObjects.Count - 1; i >= 0; i--)
+				{
+					if(ledgeCheckObjects[i] == other.gameObject)
+					{
+						break;
+					}
+					else
+					{
+						ledgeCheckObjects.Add(ledgeCheckObjects[i]);
+					}
+				}
+			}
 			
 			Debug.Log ("what the fuck");
 		}
@@ -41,12 +59,6 @@ namespace WLB
 					ledgeCheckObjects.RemoveAt(i);
 					break;
 				}
-			}
-			
-			if(ledgeCheckObjects.Count == 0)
-			{
-				ledgeGrabMotor.isLedge = false;
-				wallRunMotor.isLedge = false;
 			}
 		}
 	}
