@@ -185,6 +185,7 @@ namespace WLB
 					isJumping = false;
 				}
 			}
+
 			vSpeed = rigidBody2D.velocity.y;
 			animationModule.playerAnimator.SetFloat ("vSpeed", vSpeed);
 			if(debugText) debugText.text = "vSpeed : " + vSpeed;
