@@ -67,7 +67,7 @@ namespace WLB
 				playerPos.position = Vector2.Lerp(currentPos, endPos, (elapsedTime / climbTime));
 				yield return null;
 			}
-			while(!doneRunning)
+			/*while(!doneRunning)
 			{
 				animationModule.SetState(AnimationModule.AnimationState.wallclimb);
 				characterMotor.canJump = true;
@@ -80,7 +80,7 @@ namespace WLB
 
 				playerPos.position = endPos;
 				yield return null;
-			}
+			}*/
 
 			characterMotor.rigidBody2D.velocity = Vector2.zero;
 			animationModule.SetState (AnimationModule.AnimationState.jumpingBlendTree); 
