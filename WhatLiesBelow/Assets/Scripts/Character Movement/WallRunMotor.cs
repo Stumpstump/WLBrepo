@@ -43,9 +43,9 @@ namespace WLB
 		private IEnumerator WallRun()
 		{
 			bool doneRunning = false;
-			KeyCode breakCode = DetectBreakInput();
+			int breakCode = DetectBreakInput();
 
-			if (ledgeGrabMotor.isClimbing || Input.GetKey(breakCode)) doneRunning = true;
+			if (ledgeGrabMotor.isClimbing || Input.GetAxisRaw ("Horizontal") == breakCode) doneRunning = true;
 
 			float elapsedTime = 0f;
 			//Vector2 endPos = wallRunPos.position;
@@ -56,7 +56,7 @@ namespace WLB
 			{
 				animationModule.SetState(AnimationModule.AnimationState.wallclimb);
 				characterMotor.canJump = true;
-				doneRunning = Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.S) || ledgeGrabMotor.isClimbing || Input.GetKey(breakCode);
+				doneRunning = Input.GetAxisRaw("Vertical") == -1 || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || ledgeGrabMotor.isClimbing || Input.GetAxisRaw ("Horizontal") == breakCode;
 				if(doneRunning) 
 				{
 					//animationModule.SetState(AnimationModule.AnimationState.idle1);
@@ -87,15 +87,15 @@ namespace WLB
 			canWallReset = true;
 		}
 
-		public KeyCode DetectBreakInput()
+		public int DetectBreakInput()
 		{
-			if (Input.GetKey (KeyCode.A))
-				return KeyCode.D;
+			if (Input.GetAxisRaw("Horizontal") > 0)
+				return -1;
 
-			if (Input.GetKey (KeyCode.D))
-				return KeyCode.A;
+			if (Input.GetAxisRaw("Horizontal") < 0)
+				return 1;
 
-			return KeyCode.Ampersand;
+			return 0;
 		}
 	}
 }
