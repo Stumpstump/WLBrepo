@@ -6,6 +6,8 @@ namespace WLB
 	public class WallRunMotor : MonoBehaviour {
 		
 		public float climbTime;
+		public float climbSpeed = 5f;
+		public float cutoffSpeed = 0.9f;
 		public CharacterMotor characterMotor;
 		public AnimationModule animationModule;
 
@@ -26,7 +28,6 @@ namespace WLB
 		{
 			if(ledgeCheck.IsLedge && !spaceCheck.IsEmpty && canWallRun && !groundCheck.isGrounded)
 			{
-				Debug.Log ("launching wall run");
 				canWallRun = false;
 				animationModule.SetState(AnimationModule.AnimationState.wallclimb);
 				canWallReset = false;
@@ -48,7 +49,6 @@ namespace WLB
 			if (ledgeGrabMotor.isClimbing || Input.GetAxisRaw ("Horizontal") == breakCode) doneRunning = true;
 
 			float elapsedTime = 0f;
-			//Vector2 endPos = wallRunPos.position;
 			Vector2 endPos = new Vector2(playerPos.position.x, (playerPos.position.y + climbHeight));
 			Vector2 currentPos = playerPos.position;
 
@@ -57,35 +57,31 @@ namespace WLB
 				animationModule.SetState(AnimationModule.AnimationState.wallclimb);
 				characterMotor.canJump = true;
 				doneRunning = Input.GetAxisRaw("Vertical") == -1 || Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow) || ledgeGrabMotor.isClimbing || Input.GetAxisRaw ("Horizontal") == breakCode;
-				if(doneRunning) 
-				{
-					//animationModule.SetState(AnimationModule.AnimationState.idle1);
-					break;
-				}
+				if(doneRunning) break;
 
 				elapsedTime += Time.deltaTime;
-				playerPos.position = Vector2.Lerp(currentPos, endPos, (elapsedTime / climbTime));
+				float effectiveSpeed = Mathf.Lerp(climbSpeed, cutoffSpeed, (elapsedTime/climbTime));
+
+				if(effectiveSpeed <= 1f) doneRunning = true;
+
+				playerPos.position = Vector2.Lerp(currentPos, endPos, effectiveSpeed * (elapsedTime/climbTime));
 				yield return null;
 			}
-			/*while(!doneRunning)
-			{
-				animationModule.SetState(AnimationModule.AnimationState.wallclimb);
-				characterMotor.canJump = true;
-				doneRunning = Input.GetKeyDown(KeyCode.W) ||Input.GetKeyDown(KeyCode.S) || ledgeGrabMotor.isClimbing || Input.GetKey(breakCode);
-				if(doneRunning) 
-				{
-					//animationModule.SetState(AnimationModule.AnimationState.idle1);
-					break;
-				};
-
-				playerPos.position = endPos;
-				yield return null;
-			}*/
 
 			characterMotor.rigidBody2D.velocity = Vector2.zero;
 			animationModule.SetState (AnimationModule.AnimationState.jumpingBlendTree); 
 			canWallReset = true;
 		}
+
+
+		private float Smoothstepper(float edge0, float edge1, float x)
+		{
+			// Scale, bias and saturate x to 0..1 range
+			x = Mathf.Clamp((x - edge0)/(edge1 - edge0), 0.0f, 1.0f); 
+			// Evaluate polynomial
+			return x*x*(3 - 2*x);
+		}
+
 
 		public int DetectBreakInput()
 		{
