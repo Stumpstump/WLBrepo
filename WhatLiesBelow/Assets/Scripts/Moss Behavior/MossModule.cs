@@ -18,16 +18,18 @@ namespace WLB
 
 		private void Update()
 		{
-			if(Input.GetKeyDown(KeyCode.Q) && mossCount > 0)
+			if(Input.GetKeyDown(KeyCode.Q) && mossCount > 0 && holdingLight == false)
 			{
+				if(heldLight) Destroy(heldLight);
 				mossCount -= 1;
 				GameObject light = Instantiate(mossLightPrefab, lightPosition.position, Quaternion.identity) as GameObject;
 				holdingLight = true;
 				heldLight = light;
+				heldLight.GetComponentInChildren<Collider2D>().enabled = false;
 			}
-
-			if(Input.GetKeyUp(KeyCode.Q))
+			else if (Input.GetKeyDown(KeyCode.Q) && holdingLight == true)
 			{
+				heldLight.GetComponentInChildren<Collider2D>().enabled = true;
 				holdingLight = false;
 			}
 
