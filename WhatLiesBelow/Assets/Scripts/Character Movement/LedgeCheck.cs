@@ -46,8 +46,6 @@ namespace WLB
 					}
 				}
 			}
-			
-			Debug.Log ("what the fuck");
 		}
 		
 		private void OnTriggerExit2D(Collider2D other)

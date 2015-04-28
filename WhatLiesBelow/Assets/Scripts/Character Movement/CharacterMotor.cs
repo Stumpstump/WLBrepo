@@ -152,7 +152,7 @@ namespace WLB
 				canJump = false;
 			}
 
-			if((Input.GetKeyDown(KeyCode.W)|| Input.GetKeyDown(KeyCode.UpArrow)) && !canJump)
+			if(Input.GetAxis("Vertical") > 0 && !canJump)
 			{
 				animationModule.SetState(AnimationModule.AnimationState.jumpingBlendTree);
 			}
@@ -174,7 +174,7 @@ namespace WLB
 		{
 			if(isJumping)
 			{
-				if(currentTime < jumpForceAdditiveDuration && Input.GetKey(KeyCode.W))
+				if(currentTime < jumpForceAdditiveDuration && Input.GetAxis("Vertical") > 0)
 				{
 					//animationModule.SetState(AnimationModule.AnimationState.jumpingBlendTree);
 					rigidBody2D.AddForce (addedForceVector);
