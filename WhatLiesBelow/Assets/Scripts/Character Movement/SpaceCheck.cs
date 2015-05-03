@@ -58,7 +58,6 @@ namespace WLB
 				if(gos[i] == other.gameObject)
 				{
 					gos.Remove(gos[i]);
-					break;
 				}
 			}
 		}
