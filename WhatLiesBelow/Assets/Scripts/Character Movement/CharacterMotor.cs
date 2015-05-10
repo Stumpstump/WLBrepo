@@ -9,6 +9,7 @@ namespace WLB
 	{
 		public Text debugText;
 
+
 		public float vSpeed;
 		public float moveSpeed = 6f;
 		public float sprintSpeed = 6f;
@@ -18,6 +19,7 @@ namespace WLB
 		public float fatigueLossRate = 1f;
 		public float fatigueGainRate = 5f;
 		public float fatigue = 100f;
+		public float lethalFallSpeed = 20f;
 		public bool fatigueEnabled;
 
 		public AnimationModule animationModule;
@@ -163,9 +165,15 @@ namespace WLB
 				isRaisingFatigue = true;
 			}
 
-			if(!wallRunMotor.canWallReset)
+			if(!wallRunMotor.canWallReset || ledgeGrabMotor.isClimbing)
 			{
 				rigidBody2D.velocity = new Vector2(0f,0f);
+			}
+
+			if(rigidBody2D.velocity.y < lethalFallSpeed)
+			{
+				Debug.Log ("killing player");
+				DeathWatch._deathModule.KillPlayer();
 			}
 		}
 

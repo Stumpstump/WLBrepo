@@ -41,7 +41,6 @@ namespace WLB
 		{
 			isClimbing = true;
 			Rigidbody2D rb2d = playerPos.gameObject.GetComponent<Rigidbody2D> ();
-			Debug.Log ("climbing");
 
 			Vector2 endPos = climbPos.position;
 			Vector2 currentPos = playerPos.position;
