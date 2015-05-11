@@ -18,15 +18,21 @@ namespace WLB
 		public GroundCheck groundCheck;
 	
 		public bool isClimbing;
+		private bool canClimb = true;
 
 		private void Update()
 		{
-			if(ledgeCheck.IsLedge && spaceCheck.IsEmpty && !isClimbing)
+			if(ledgeCheck.IsLedge && spaceCheck.IsEmpty && !isClimbing && canClimb)
 			{
 				Debug.Log ("climbing");
 				isClimbing = true;
 				animationModule.SetState(AnimationModule.AnimationState.ledgegrab);
 				StartCoroutine(Climb());
+			}
+
+			if(!canClimb && groundCheck.isGrounded)
+			{
+				canClimb = true;
 			}
 		}
 
@@ -35,7 +41,6 @@ namespace WLB
 		{
 			isClimbing = true;
 			Rigidbody2D rb2d = playerPos.gameObject.GetComponent<Rigidbody2D> ();
-			Debug.Log ("climbing");
 
 			Vector2 endPos = climbPos.position;
 			Vector2 currentPos = playerPos.position;
@@ -56,6 +61,7 @@ namespace WLB
 
 			//rb2d.isKinematic = true;
 			isClimbing = false;
+			canClimb = false;
 		}
 	}
 }

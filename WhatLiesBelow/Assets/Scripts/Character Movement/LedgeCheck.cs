@@ -55,7 +55,6 @@ namespace WLB
 				if(ledgeCheckObjects[i] == other.gameObject)
 				{
 					ledgeCheckObjects.RemoveAt(i);
-					break;
 				}
 			}
 		}
